@@ -201,16 +201,19 @@ if prompt := st.chat_input("Zihnindeki frekansları paylaş..."):
         st.error(f"Neural Connection Error: {str(e)}")
 
 # --- 6. YAN PANEL VE YASAL UYARI (GİZLİLİK BUTONU BURADA) ---
+# --- 3. FÜTÜRİSTİK SİBER-TASARIM (GÜNCELLENMİŞ CSS) ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
     
+    /* Arka Plan */
     .stApp {
         background: radial-gradient(circle at top right, #0a0e1a, #030712);
         color: #00d4ff;
         font-family: 'Space Grotesk', sans-serif;
     }
 
+    /* Başlık */
     .hero-title {
         font-size: 5rem;
         font-weight: 900;
@@ -223,6 +226,7 @@ st.markdown("""
         filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
     }
 
+    /* Kartlar */
     .futuristic-card {
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(0, 212, 255, 0.2);
@@ -232,26 +236,32 @@ st.markdown("""
         text-align: center;
     }
 
+    /* Mesaj Balonları */
     .stChatMessage {
         background: rgba(16, 24, 40, 0.8) !important;
         border: 1px solid rgba(0, 212, 255, 0.1);
         border-radius: 20px !important;
     }
 
-    /* 🎯 OK İŞARETİNİ BELİRGİNLEŞTİREN YENİ SİBER BUTON CSS'İ */
+    /* 🎯 OK BUTONUNU GERİ GETİREN VE PARLATAN YENİ CSS */
     [data-testid="stSidebarCollapseButton"] {
-        background-color: rgba(0, 212, 255, 0.1) !important;
-        border: 1px solid #00d4ff !important;
-        border-radius: 50% !important;
-        box-shadow: 0 0 15px rgba(0, 212, 255, 0.4) !important;
-        transition: all 0.3s ease-in-out !important;
-        left: 10px;
-        top: 10px;
+        background-color: rgba(0, 212, 255, 0.15) !important;
+        border: 2px solid #00d4ff !important;
+        border-radius: 12px !important;
+        box-shadow: 0 0 15px rgba(0, 212, 255, 0.5) !important;
+        position: fixed !important;
+        left: 20px !important;
+        top: 20px !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        visibility: visible !important; /* Gizliliği zorla kaldırıyoruz */
+        padding: 5px !important;
     }
     
     [data-testid="stSidebarCollapseButton"] svg {
-        fill: #00d4ff !important; /* Ok ikonunun rengini neon mavi yapar */
-        transform: scale(1.3); /* Oku %30 daha büyük yapar */
+        fill: #00d4ff !important;
+        width: 32px !important; /* Oku devasa yapar */
+        height: 32px !important;
     }
 
     [data-testid="stSidebarCollapseButton"]:hover {
@@ -259,12 +269,15 @@ st.markdown("""
         box-shadow: 0 0 25px #00d4ff !important;
     }
     
-    [data-testid="stSidebarCollapseButton"] svg:hover {
-        fill: #030712 !important; /* Üzerine gelindiğinde ok siyah olur */
+    [data-testid="stSidebarCollapseButton"]:hover svg {
+        fill: #030712 !important;
     }
 
-    /* Gizli Arayüz Elemanları */
-    header, footer {visibility: hidden;}
+    /* ⚠️ SADECE HEADER ARKA PLANINI GİZLE, BUTONU DEĞİL */
+    header[data-testid="stHeader"] {
+        background: transparent !important;
+    }
+    footer {visibility: hidden;}
     </style>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True), unsafe_allow_html=True)
 st.caption("⚠️ **Notice:** Lumina 2050 is an AI mental wellness protocol. It does not provide medical diagnoses or real-time crisis intervention. By interacting, you agree to our [Privacy Policy].")
