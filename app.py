@@ -142,7 +142,7 @@ if prompt := st.chat_input("Speak your mind..."):
         llm = ChatGroq(
             temperature=0.6,
             groq_api_key=groq_api_key,
-            groq_api_key = st.secrets["GROQ_API_KEY"]
+            model_name="llama-3.3-70b-versatile"
         )
 
         system_prompt = (
