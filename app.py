@@ -90,7 +90,7 @@ apply_custom_design()
 # 3. SIDEBAR (YAN PANEL)
 with st.sidebar:
     st.markdown("### 🌿 Lumina Care")
-    groq_api_key = st.text_input("Groq API Key", type="password")
+    groq_api_key = st.secrets["GROQ_API_KEY"]
     
     st.divider()
     st.markdown("#### Mindful Tools")
