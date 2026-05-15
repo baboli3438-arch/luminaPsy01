@@ -1,137 +1,140 @@
 import streamlit as st
+import os
 from groq import Groq
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_groq import ChatGroq
 
-# 1. SAYFA AYARLARI
+# --- 1. CONFIG & API SETUP ---
 st.set_page_config(
-    page_title="Lumina Psy | Virtual Clinic",
+    page_title="Lumina Psy | AI Virtual Clinic",
     page_icon="🌿",
-    layout="centered"
+    layout="wide"
 )
 
-# 2. GELİŞMİŞ GÖRSEL TASARIM (CSS)
-def apply_custom_design():
+# API Key doğrudan Streamlit Secrets üzerinden çekiliyor
+try:
+    groq_api_key = st.secrets["GROQ_API_KEY"]
+except KeyError:
+    # Eğer localde çalıştırıyorsan ve secrets yoksa hata vermemesi için .env kontrolü (Yedek Plan)
+    groq_api_key = os.getenv("GROQ_API_KEY")
+
+# --- 2. BLUWHALE INSPIRED DESIGN (CSS) ---
+def apply_bluwhale_design():
     st.markdown("""
         <style>
-        /* Modern Arka Plan ve Yazı Tipi */
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&display=swap');
         
         .stApp {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+            font-family: 'Spline Sans', sans-serif;
+            color: #E2E8F0;
         }
 
-        /* Başlık ve Alt Başlık */
         .main-title {
-            font-weight: 800;
-            background: -webkit-linear-gradient(#1e3a8a, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            color: #FFFFFF;
             text-align: center;
-            font-size: 3rem;
+            font-size: 3.5rem;
+            letter-spacing: -2px;
             margin-bottom: 0px;
+            margin-top: -50px;
         }
         
         .sub-title {
-            color: #4b5563;
+            color: #9CA3AF;
             text-align: center;
             font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 40px;
+            font-weight: 400;
+            margin-bottom: 50px;
         }
 
-        /* Sohbet Balonları */
         .stChatMessage {
-            background-color: rgba(255, 255, 255, 0.7) !important;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            background-color: #111827 !important;
+            border: 1px solid #1F2937;
+            border-radius: 12px !important;
             margin-bottom: 15px;
-        }
-        
-        /* Kullanıcı Mesajı Farklılaştırma */
-        [data-testid="stChatMessageUser"] {
-            background-color: rgba(59, 130, 246, 0.1) !important;
-        }
-
-        /* Sidebar Güzelleştirme */
-        [data-testid="stSidebar"] {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-right: 1px solid #e5e7eb;
-        }
-
-        /* Kartlar (Features) */
-        .feature-card {
-            background: white;
             padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border: 1px solid #f3f4f6;
         }
         
-        /* Butonlar */
-        .stButton>button {
+        [data-testid="stChatMessageUser"] {
+            border-left: 4px solid #3B82F6 !important;
+        }
+
+        .stChatInputContainer {
+            background-color: #111827 !important;
+            border: 1px solid #1F2937 !important;
+            border-radius: 12px !important;
+        }
+
+        [data-testid="stSidebar"] {
+            background-color: #030712;
+            border-right: 1px solid #1F2937;
+        }
+
+        .feature-card {
+            background: rgba(17, 24, 39, 0.5);
+            padding: 25px;
             border-radius: 12px;
+            text-align: left;
+            border: 1px solid #1F2937;
             transition: all 0.3s ease;
         }
-        .stButton>button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .feature-card:hover {
+            border-color: #3B82F6;
+            background: rgba(59, 130, 246, 0.05);
         }
+
+        .stButton>button {
+            border-radius: 8px;
+            background-color: #1F2937;
+            color: white;
+            border: 1px solid #374151;
+            transition: all 0.2s;
+        }
+        .stButton>button:hover {
+            background-color: #3B82F6;
+            border-color: #3B82F6;
+        }
+        
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
         </style>
     """, unsafe_allow_html=True)
 
-apply_custom_design()
+apply_bluwhale_design()
 
-# 3. SIDEBAR (YAN PANEL)
-with st.sidebar:
-    st.markdown("### 🌿 Lumina Care")
-    groq_api_key = st.secrets["GROQ_API_KEY"]
-    
-    st.divider()
-    st.markdown("#### Mindful Tools")
-    if st.button("🧘 1 Minute Breathing"):
-        st.toast("Breath in... 2... 3... 4... and out...", icon="🌬️")
+# --- 3. HERO SECTION (GİRİŞ) ---
+welcome_container = st.container()
+with welcome_container:
+    _, mid_col, _ = st.columns([1, 4, 1])
+    with mid_col:
+        st.markdown("<h1 class='main-title'>Lumina Psy</h1>", unsafe_allow_html=True)
+        st.markdown("<p class='sub-title'>Your Professional AI Companion for Emotional Resilience.</p>", unsafe_allow_html=True)
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown('<div class="feature-card"><h3>🔒 Secure</h3>Conversations are encrypted and private.</div>', unsafe_allow_html=True)
+        with col2:
+            st.markdown('<div class="feature-card"><h3>⚡ Instant</h3>Access priority support 24/7.</div>', unsafe_allow_html=True)
+        with col3:
+            st.markdown('<div class="feature-card"><h3>🧠 Clinical</h3>Based on CBT & ACT methodologies.</div>', unsafe_allow_html=True)
         
-    st.markdown("---")
-    st.caption("Developed with empathy for a better mind.")
-    if st.button("Reset Session", use_container_width=True):
-        st.session_state.messages = []
-        st.rerun()
+        st.write("")
+        st.divider()
 
-# 4. GİRİŞ EKRANI (HERO)
-st.markdown("<h1 class='main-title'>Lumina Psy</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>Safe. Professional. Always here.</p>", unsafe_allow_html=True)
-
-# Görsel Kartlar
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.markdown('<div class="feature-card"><b>🔒 Encrypted</b><br>Private Chat</div>', unsafe_allow_html=True)
-with col2:
-    st.markdown('<div class="feature-card"><b>☁️ Calm</b><br>Safe Space</div>', unsafe_allow_html=True)
-with col3:
-    st.markdown('<div class="feature-card"><b>⚡ Fast</b><br>Instant Care</div>', unsafe_allow_html=True)
-
-st.write("") # Boşluk
-st.divider()
-
-# 5. SOHBET MANTIĞI
+# --- 4. CHAT LOGIC ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Mesajları Ekrana Bas
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Kullanıcı Girişi
-if prompt := st.chat_input("Speak your mind..."):
+if prompt := st.chat_input("Start typing your thoughts..."):
     if not groq_api_key:
-        st.warning("Please enter your API key to start.")
+        st.error("⚠️ GROQ_API_KEY is missing. Please check your Streamlit Secrets settings.")
         st.stop()
 
     with st.chat_message("user"):
@@ -146,9 +149,8 @@ if prompt := st.chat_input("Speak your mind..."):
         )
 
         system_prompt = (
-            "You are Lumina Psy, a warm and professional Clinical Psychologist AI. "
-            "Your tone is soft, welcoming, and clinically grounded. Use CBT techniques. "
-            "Keep it empathetic and safe."
+            "You are Lumina Psy, a warm, professional, and empathetic Clinical Psychologist AI. "
+            "Use Socratic questioning and CBT techniques. Maintain a focus on mental wellness."
         )
 
         prompt_template = ChatPromptTemplate.from_messages([
@@ -157,17 +159,16 @@ if prompt := st.chat_input("Speak your mind..."):
             ("human", "{input}")
         ])
 
-        # Rolling Memory (Last 6 turns)
         full_history = [
             HumanMessage(content=m["content"]) if m["role"] == "user" else AIMessage(content=m["content"])
             for m in st.session_state.messages[:-1]
         ]
-        rolling_history = full_history[-12:] 
+        rolling_history = full_history[-10:] 
 
         chain = prompt_template | llm
         
         with st.chat_message("assistant"):
-            with st.spinner("Listening carefully..."):
+            with st.spinner("Reflecting..."):
                 response = chain.invoke({"chat_history": rolling_history, "input": prompt})
                 st.markdown(response.content)
                 st.session_state.messages.append({"role": "assistant", "content": response.content})
@@ -175,6 +176,17 @@ if prompt := st.chat_input("Speak your mind..."):
     except Exception as e:
         st.error(f"Connection issue: {str(e)}")
 
-# 6. ALT BİLGİ
+# --- 5. SIDEBAR (MINIMAL) ---
+with st.sidebar:
+    st.markdown("### 🌿 Lumina Controls")
+    st.caption("AI Session Status: Active")
+    st.write("")
+    if st.button("Reset Session", use_container_width=True):
+        st.session_state.messages = []
+        st.rerun()
+    st.divider()
+    st.caption("© 2026 Lumina Health")
+
+# --- 6. FOOTER ---
 st.markdown("<br><br>", unsafe_allow_html=True)
-st.caption("⚠️ Lumina is an AI support tool and not a substitute for medical intervention.")
+st.caption("⚠️ Lumina is an AI support tool and not a substitute for medical intervention or crisis care.")
