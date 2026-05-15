@@ -4,169 +4,177 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_groq import ChatGroq
 
-# 1. SAYFA AYARLARI VE GÖRSEL KİMLİK
+# 1. SAYFA AYARLARI
 st.set_page_config(
-    page_title="Lumina Psy | AI Mental Wellness",
-    page_icon="🧠",
+    page_title="Lumina Psy | Virtual Clinic",
+    page_icon="🌿",
     layout="centered"
 )
 
-# Profesyonel CSS Tasarımı
-def local_css():
+# 2. GELİŞMİŞ GÖRSEL TASARIM (CSS)
+def apply_custom_design():
     st.markdown("""
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        /* Modern Arka Plan ve Yazı Tipi */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
         
-        html, body, [class*="css"] {
-            font-family: 'Inter', sans-serif;
+        .stApp {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        /* Başlık ve Alt Başlık */
         .main-title {
-            font-weight: 700;
-            color: #1E3A8A;
+            font-weight: 800;
+            background: -webkit-linear-gradient(#1e3a8a, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-align: center;
-            margin-bottom: 5px;
+            font-size: 3rem;
+            margin-bottom: 0px;
         }
         
         .sub-title {
-            color: #6B7280;
+            color: #4b5563;
             text-align: center;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 40px;
         }
 
+        /* Sohbet Balonları */
         .stChatMessage {
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.7) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
+        }
+        
+        /* Kullanıcı Mesajı Farklılaştırma */
+        [data-testid="stChatMessageUser"] {
+            background-color: rgba(59, 130, 246, 0.1) !important;
         }
 
-        .footer {
-            font-size: 0.8rem;
-            color: #9CA3AF;
-            text-align: center;
+        /* Sidebar Güzelleştirme */
+        [data-testid="stSidebar"] {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-right: 1px solid #e5e7eb;
+        }
+
+        /* Kartlar (Features) */
+        .feature-card {
+            background: white;
             padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #f3f4f6;
+        }
+        
+        /* Butonlar */
+        .stButton>button {
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .stButton>button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         </style>
     """, unsafe_allow_html=True)
 
-local_css()
+apply_custom_design()
 
-# 2. YAN PANEL (SIDEBAR) REHBERİ
+# 3. SIDEBAR (YAN PANEL)
 with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/brain.png", width=70)
-    st.title("Lumina Control")
+    st.markdown("### 🌿 Lumina Care")
+    groq_api_key = st.text_input("Groq API Key", type="password")
     
-    # API Anahtarı Girişi
-    groq_api_key = st.text_input("Groq API Key", type="password", help="Get your key at console.groq.com")
-    
-    # Bellek Ayarı
-    memory_window = st.select_slider(
-        "Memory Depth (Contextual History):",
-        options=[2, 4, 6, 8, 10],
-        value=6
-    )
-    
-    st.markdown("---")
-    st.markdown("### 🧘 Quick Relief")
-    if st.button("4-7-8 Breathing Technique"):
-        st.info("Inhale for 4s... Hold for 7s... Exhale for 8s... Repeat.")
+    st.divider()
+    st.markdown("#### Mindful Tools")
+    if st.button("🧘 1 Minute Breathing"):
+        st.toast("Breath in... 2... 3... 4... and out...", icon="🌬️")
         
-    if st.button("Clear History"):
+    st.markdown("---")
+    st.caption("Developed with empathy for a better mind.")
+    if st.button("Reset Session", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
 
-# 3. GİRİŞ EKRANI (HERO SECTION)
+# 4. GİRİŞ EKRANI (HERO)
 st.markdown("<h1 class='main-title'>Lumina Psy</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>Your professional partner for emotional resilience and clarity.</p>", unsafe_allow_html=True)
+st.markdown("<p class='sub-title'>Safe. Professional. Always here.</p>", unsafe_allow_html=True)
 
-# Bilgi Kartları
+# Görsel Kartlar
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.success("🔒 **Private**\n\nSecure Session")
+    st.markdown('<div class="feature-card"><b>🔒 Encrypted</b><br>Private Chat</div>', unsafe_allow_html=True)
 with col2:
-    st.warning("⚡ **Fast**\n\nReal-time AI")
+    st.markdown('<div class="feature-card"><b>☁️ Calm</b><br>Safe Space</div>', unsafe_allow_html=True)
 with col3:
-    st.info("🧠 **Expert**\n\nCBT Framework")
+    st.markdown('<div class="feature-card"><b>⚡ Fast</b><br>Instant Care</div>', unsafe_allow_html=True)
 
+st.write("") # Boşluk
 st.divider()
 
-# 4. SOHBET GEÇMİŞİ YÖNETİMİ
+# 5. SOHBET MANTIĞI
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Geçmiş mesajları ekrana bas
+# Mesajları Ekrana Bas
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# 5. ANA MANTIK VE API ÇAĞRISI
-if prompt := st.chat_input("How are you feeling today?"):
-    
+# Kullanıcı Girişi
+if prompt := st.chat_input("Speak your mind..."):
     if not groq_api_key:
-        st.error("Please provide your Groq API Key in the sidebar.")
+        st.warning("Please enter your API key to start.")
         st.stop()
 
-    # Kullanıcı mesajını göster
     with st.chat_message("user"):
         st.markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     try:
-        # GÜNCEL MODEL: llama-3.3-70b-versatile
         llm = ChatGroq(
             temperature=0.6,
             groq_api_key=groq_api_key,
-            model_name="llama-3.3-70b-versatile"
+            groq_api_key = st.secrets["GROQ_API_KEY"]
         )
 
-        # Uzman Sistem Talimatı
-        system_message = (
-            "You are Lumina Psy, a highly empathetic AI Assistant with expertise in Clinical Psychology and Psychiatry. "
-            "Your goal is to provide evidence-based emotional support using CBT and ACT principles. "
-            "STRICT RULES:\n"
-            "1. Validate emotions before analyzing.\n"
-            "2. Never provide a clinical diagnosis or prescribe drugs.\n"
-            "3. If self-harm is mentioned, stop therapy and provide emergency hotline info immediately.\n"
-            "4. Keep responses concise, fluent, and professional."
+        system_prompt = (
+            "You are Lumina Psy, a warm and professional Clinical Psychologist AI. "
+            "Your tone is soft, welcoming, and clinically grounded. Use CBT techniques. "
+            "Keep it empathetic and safe."
         )
 
         prompt_template = ChatPromptTemplate.from_messages([
-            ("system", system_message),
+            ("system", system_prompt),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}")
         ])
 
-        # Rolling Memory Hazırlığı
-        full_history = []
-        for msg in st.session_state.messages[:-1]:
-            if msg["role"] == "user":
-                full_history.append(HumanMessage(content=msg["content"]))
-            else:
-                full_history.append(AIMessage(content=msg["content"]))
+        # Rolling Memory (Last 6 turns)
+        full_history = [
+            HumanMessage(content=m["content"]) if m["role"] == "user" else AIMessage(content=m["content"])
+            for m in st.session_state.messages[:-1]
+        ]
+        rolling_history = full_history[-12:] 
 
-        rolling_history = full_history[-(memory_window * 2):] if full_history else []
-
-        # Zinciri Çalıştır
         chain = prompt_template | llm
         
         with st.chat_message("assistant"):
-            with st.spinner("Reflecting on your thoughts..."):
-                response = chain.invoke({
-                    "chat_history": rolling_history,
-                    "input": prompt
-                })
-                ai_content = response.content
-                st.markdown(ai_content)
-        
-        st.session_state.messages.append({"role": "assistant", "content": ai_content})
+            with st.spinner("Listening carefully..."):
+                response = chain.invoke({"chat_history": rolling_history, "input": prompt})
+                st.markdown(response.content)
+                st.session_state.messages.append({"role": "assistant", "content": response.content})
 
     except Exception as e:
-        st.error(f"System update in progress or API error: {str(e)}")
+        st.error(f"Connection issue: {str(e)}")
 
-# 6. YASAL UYARI (FOOTER)
-st.markdown("---")
-st.markdown(
-    "<div class='footer'>⚠️ <b>Disclaimer:</b> Lumina Psy is an AI-based wellness tool. It is NOT a replacement for professional medical advice, diagnosis, or emergency psychiatric care. If you are in crisis, please call emergency services immediately.</div>", 
-    unsafe_allow_html=True
-)
+# 6. ALT BİLGİ
+st.markdown("<br><br>", unsafe_allow_html=True)
+st.caption("⚠️ Lumina is an AI support tool and not a substitute for medical intervention.")
