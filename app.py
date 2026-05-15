@@ -30,29 +30,29 @@ except:
     groq_api_key = os.getenv("GROQ_API_KEY")
 
 # --- 2. GİZLİLİK POLİTİKASI (PRIVACY POLICY) MODALI ---
-@st.dialog("💠 QUANTUM NEURAL DATA PRIVACY DECREE (Gizlilik Sözleşmesi)", width="large")
+@st.dialog("💠 QUANTUM NEURAL DATA PRIVACY DECREE", width="large")
 def show_privacy_policy():
     st.markdown("""
-    **Yürürlük Tarihi:** Mayıs 2026  
-    **Lumina 2050 Siber Klinik Protokolü v4.1**
+    **Effective Date:** May 2026  
+    **Lumina 2050 Cyber-Clinic Protocol v4.1**
     
-    Lumina 2050 platformu olarak, insan bilincine ve veri güvenliğine en üst düzeyde saygı duyuyoruz. Bu sözleşme, siber kliniğimizle etkileşime geçtiğinizde verilerinizin nasıl işlendiğini açıklar.
+    At Lumina 2050, we hold human consciousness and data sovereignty in the highest regard. This Privacy Decree outlines how your neural-textual data is processed when interacting with our cyber-clinic.
     
-    ### 1. İşlenen Veriler ve Kapsam
-    * **Yapay Zeka Sohbet Verileri:** Lumina 2050 ile paylaştığınız tüm duygusal durum, düşünce şemaları ve metin girdileri, seans süresince geçici bellek pencerelerinde (Rolling Window Memory) işlenir.
-    * **Kimliksizleştirme:** Sistemimiz hiçbir şekilde ad, soyad, IP adresi veya konum verisi gibi gerçek kimlik bilgilerinizi saklamaz veya işlemez. Tüm oturumlar siber-anonim olarak yürütülür.
+    ### 1. Data Collection and Scope
+    * **AI Chat Data:** All emotional states, cognitive schemas, and textual inputs you share with Lumina 2050 are processed temporarily within transient volatile memory cells (Rolling Window Memory) solely to sustain the session context.
+    * **Anonymization:** Our core architecture does not request, log, or store real-world identifiers such as names, surnames, IP addresses, or geographical telemetry. All communication lines are executed under strict cyber-anonymity.
     
-    ### 2. Veri İşleme ve Şifreleme Mekanizması
-    * Girdileriniz, uçtan uca kriptografik katmanlar aracılığıyla güvenli yapay zeka sunucularına aktarılır.
-    * Verileriniz üçüncü taraf veri simsarlarına, reklam şirketlerine veya yapay zeka geliştirme havuzlarına **kesinlikle satılmaz ve satılması teklif dahi edilemez.**
+    ### 2. Processing and Cryptographic Protocols
+    * Your inputs are routed through end-to-end encrypted cryptographic layers to secure neural processing nodes.
+    * Your data **is never sold, leased, or sub-licensed** to third-party data brokers, advertising networks, or centralized AI training pools. 
     
-    ### 3. Oturum Sıfırlama (Veri Intrusion)
-    * Arayüzde bulunan **"Purge Session Data" (Verileri Temizle)** butonuna bastığınız anda, o oturuma ait tüm kuantum sinirsel geçmiş ve sohbet logları kalıcı olarak imha edilir. Geri döndürülmesi imkansızdır.
+    ### 3. Immediate Data Purging (Volatile Memory Wipe)
+    * The moment you trigger the **"Purge Session Data (Reset)"** directive on the control panel, all rolling neural histories, session tokens, and dialog logs associated with your interface are permanently vaporized. This operation is absolute and mathematically irreversible.
     
-    ### 4. Sorumluluk Reddi ve Onay
-    * Lumina 2050 tıbbi bir tanı koyma veya ilaç yazma yetkisine sahip değildir. Bu aracı kullanarak verilerinizin yukarıdaki güvenlik protokolleri çerçevesinde işlenmesini ve bunun bir klinik tedavi yerine geçmediğini kabul etmiş sayılırsınız.
+    ### 4. Disclaimer and Consent
+    * Lumina 2050 operates as an advanced AI mental wellness protocol. It does not possess clinical authority to diagnose medical conditions, issue psychological prescriptions, or provide real-time crisis intervention. By engaging with this matrix, you acknowledge and consent to these neural data protocols.
     """)
-    if st.button("Kabul Ediyorum ve Protokolü Kapat", type="primary"):
+    if st.button("I Accept & Close Protocol", type="primary", use_container_width=True):
         st.rerun()
 
 # Reklam Alanı Tasarımı
