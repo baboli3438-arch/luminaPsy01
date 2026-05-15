@@ -131,13 +131,26 @@ st.write("")
 # Özellik Kartları
 c1, c2, c3 = st.columns(3)
 with c1:
-    st.markdown('<div class="futuristic-card">🧬 <b>Biometric</b><br>Emotional Pulse Analysis</div>', unsafe_allow_html=True)
+    st.markdown('''
+        <div class="futuristic-card">
+            <h3 style="color:#00d4ff; margin-top:0;">🧬 Biometric</h3>
+            <p style="color:#9CA3AF; margin-bottom:0;">Emotional Pulse Analysis</p>
+        </div>
+    ''', unsafe_allow_html=True)
 with c2:
-    st.markdown('<div class="futuristic-card">🛰️ <b>Global</b><br>Neural Sync 24/7</div>', unsafe_allow_html=True)
+    st.markdown('''
+        <div class="futuristic-card">
+            <h3 style="color:#00d4ff; margin-top:0;">🛰️ Global</h3>
+            <p style="color:#9CA3AF; margin-bottom:0;">Neural Sync 24/7</p>
+        </div>
+    ''', unsafe_allow_html=True)
 with c3:
-    st.markdown('<div class="futuristic-card">🔮 <b>Adaptive</b><br>Personalized Response</div>', unsafe_allow_html=True)
-
-st.divider()
+    st.markdown('''
+        <div class="futuristic-card">
+            <h3 style="color:#00d4ff; margin-top:0;">🔮 Adaptive</h3>
+            <p style="color:#9CA3AF; margin-bottom:0;">Personalized Response</p>
+        </div>
+    ''', unsafe_allow_html=True)
 
 # --- 5. SOHBET SİSTEMİ ---
 if "messages" not in st.session_state:
