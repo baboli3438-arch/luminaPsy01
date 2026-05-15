@@ -25,7 +25,7 @@ with st.sidebar:
     st.markdown("---")
     
     # Secure API Key input
-    groq_api_key = st.text_input("Enter Groq API Key:", type="password")
+    groq_api_key = st.secrets["GROQ_API_KEY"]
     
     # Rolling memory size configuration
     memory_window = st.slider(
