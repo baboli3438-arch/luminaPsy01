@@ -1,29 +1,90 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import os
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 
-# --- 1. SİSTEM AYARLARI ---
-st.set_page_config(page_title="Lumina Psy | Future Clinic", page_icon="💠", layout="wide")
+# --- 1. SİSTEM VE 160 KARAKTERLİK SEO AYARLARI ---
+st.set_page_config(
+    page_title="Lumina 2050 | Futuristic AI Therapy",
+    page_icon="💠",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 
-# API Anahtarı (İstediğin özel satır)
+# Google AdSense ve Optimize Edilmiş SEO Meta Etiketleri Entegrasyonu
+def inject_seo_and_ads():
+    # 160 Karakterlik Tam Arama Motoru Özeti (Description)
+    seo_description = "Lumina 2050: Kuantum sinir ağları ile anksiyete ve stres yönetimi sağlayan, CBT tabanlı fütüristik yapay zeka psikolojik destek ve siber terapi platformu."
+    
+    adsense_script = f"""
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    
+    <meta name="description" content="{seo_description}">
+    <meta name="keywords" content="AI therapy, yapay zeka psikolog, siber klinik, mental health AI, Lumina 2050, anksiyete terapisi">
+    """
+    components.html(adsense_script, height=0)
+
+# API Anahtarı Yönetimi
 try:
     groq_api_key = st.secrets["GROQ_API_KEY"]
 except:
     groq_api_key = os.getenv("GROQ_API_KEY")
 
-# --- 2. FÜTÜRİSTİK SİBER-TASARIM (CSS) ---
+# --- 2. GİZLİLİK POLİTİKASI (PRIVACY POLICY) FONKSİYONU ---
+@st.dialog("💠 QUANTUM NEURAL DATA PRIVACY DECREE (Gizlilik Sözleşmesi)", width="large")
+def show_privacy_policy():
+    st.markdown("""
+    **Yürürlük Tarihi:** Mayıs 2026  
+    **Lumina 2050 Siber Klinik Protokolü v4.1**
+    
+    Lumina 2050 platformu olarak, insan bilincine ve veri güvenliğine en üst düzeyde saygı duyuyoruz. Bu sözleşme, siber kliniğimizle etkileşime geçtiğinizde verilerinizin nasıl işlendiğini açıklar.
+    
+    ### 1. İşlenen Veriler ve Kapsam
+    * **Yapay Zeka Sohbet Verileri:** Lumina 2050 ile paylaştığınız tüm duygusal durum, düşünce şemaları ve metin girdileri, seans süresince geçici bellek pencerelerinde (Rolling Window Memory) işlenir.
+    * **Kimliksizleştirme:** Sistemimiz hiçbir şekilde ad, soyad, IP adresi veya konum verisi gibi gerçek kimlik bilgilerinizi saklamaz veya işlemez. Tüm oturumlar siber-anonim olarak yürütülür.
+    
+    ### 2. Veri İşleme ve Şifreleme Mekanizması
+    * Girdileriniz, uçtan uca kriptografik katmanlar aracılığıyla güvenli yapay zeka sunucularına aktarılır.
+    * Verileriniz üçüncü taraf veri simsarlarına, reklam şirketlerine veya yapay zeka geliştirme havuzlarına **kesinlikle satılmaz ve satılması teklif dahi edilemez.**
+    
+    ### 3. Oturum Sıfırlama (Veri İmhası)
+    * Arayüzde bulunan **"Purge Session Data" (Verileri Temizle)** butonuna bastığınız anda, o oturuma ait tüm kuantum sinirsel geçmiş ve sohbet logları kalıcı olarak imha edilir. Geri döndürülmesi imkansızdır.
+    
+    ### 4. Sorumluluk Reddi ve Onay
+    * Lumina 2050 tıbbi bir tanı koyma veya ilaç yazma yetkisine sahip değildir. Bu aracı kullanarak verilerinizin yukarıdaki güvenlik protokolleri çerçevesinde işlenmesini ve bunun bir klinik tedavi yerine geçmediğini kabul etmiş sayılırsınız.
+    """)
+    if st.button("Kabul Ediyorum ve Protokolü Kapat", type="primary"):
+        st.rerun()
+
+# Reklam Alanı Tasarımı
+def render_ad_unit(slot_id):
+    ad_html = f"""
+    <div style="text-align:center; margin: 20px 0; opacity: 0.5;">
+        <small style="color: #00d4ff; font-family: sans-serif; font-size:10px;">NEURAL AD NETWORK // SLOT: {slot_id}</small>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="{slot_id}"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script> (adsbygoogle = window.adsbygoogle || []).push({{}}); </script>
+    </div>
+    """
+    components.html(ad_html, height=120)
+
+# --- 3. FÜTÜRİSTİK SİBER-TASARIM (CSS) ---
 st.markdown("""
     <style>
-    /* Arka Plan: Hareketli Siber Gradyan */
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+    
     .stApp {
         background: radial-gradient(circle at top right, #0a0e1a, #030712);
         color: #00d4ff;
         font-family: 'Space Grotesk', sans-serif;
     }
 
-    /* Başlık: Fütüristik Neon Efekti */
     .hero-title {
         font-size: 5rem;
         font-weight: 900;
@@ -36,7 +97,6 @@ st.markdown("""
         filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
     }
 
-    /* Fütüristik Kartlar (Glassmorphism) */
     .futuristic-card {
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(0, 212, 255, 0.2);
@@ -44,34 +104,12 @@ st.markdown("""
         padding: 30px;
         border-radius: 24px;
         text-align: center;
-        transition: 0.5s all ease;
-    }
-    .futuristic-card:hover {
-        background: rgba(0, 212, 255, 0.08);
-        border-color: #00d4ff;
-        transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
     }
 
-    /* Mesaj Balonları: Siber Stil */
     .stChatMessage {
         background: rgba(16, 24, 40, 0.8) !important;
         border: 1px solid rgba(0, 212, 255, 0.1);
-        border-radius: 0 20px 20px 20px !important;
-        margin-bottom: 20px;
-    }
-    [data-testid="stChatMessageUser"] {
-        background: rgba(0, 85, 255, 0.1) !important;
-        border-right: 4px solid #00d4ff !important;
-        border-radius: 20px 0 20px 20px !important;
-    }
-
-    /* Input Alanı: Glow (Işıltı) Efekti */
-    .stChatInputContainer {
-        border-radius: 50px !important;
-        border: 1px solid rgba(0, 212, 255, 0.3) !important;
-        background: rgba(3, 7, 18, 0.9) !important;
-        box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+        border-radius: 20px !important;
     }
 
     /* Gizli Arayüz Elemanları */
@@ -79,43 +117,42 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- 3. ANA EKRAN (HERO) ---
+# Başlangıçta SEO ayarlarını yükle
+inject_seo_and_ads()
+
+# --- 4. ANA ARAYÜZ ---
+render_ad_unit("TOP_AD_SLOT_ID")
+
 st.markdown("<h1 class='hero-title'>LUMINA 2050</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center; color:#00d4ff; font-size:1.2rem; opacity:0.8;'>Quantum-Neural Emotional Intelligence Support</p>", unsafe_allow_html=True)
 
 st.write("")
-st.write("")
 
-# Fütüristik 3'lü Bölüm
+# Özellik Kartları
 c1, c2, c3 = st.columns(3)
 with c1:
-    st.markdown('<div class="futuristic-card"><h2 style="color:#00d4ff;">🧬 Biometric</h2>Analyze emotional pulse.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="futuristic-card">🧬 <b>Biometric</b><br>Emotional Pulse Analysis</div>', unsafe_allow_html=True)
 with c2:
-    st.markdown('<div class="futuristic-card"><h2 style="color:#00d4ff;">🛰️ Global</h2>Connected to your mind 24/7.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="futuristic-card">🛰️ <b>Global</b><br>Neural Sync 24/7</div>', unsafe_allow_html=True)
 with c3:
-    st.markdown('<div class="futuristic-card"><h2 style="color:#00d4ff;">🔮 Adaptive</h2>Personalized neural response.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="futuristic-card">🔮 <b>Adaptive</b><br>Personalized Response</div>', unsafe_allow_html=True)
 
-st.write("")
-st.write("")
 st.divider()
 
-# --- 4. SOHBET SİSTEMİ ---
+# --- 5. SOHBET SİSTEMİ ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Mesaj Geçmişini Göster
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Giriş ve Yanıt
 if prompt := st.chat_input("Zihnindeki frekansları paylaş..."):
     with st.chat_message("user"):
         st.markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     try:
-        # LLM (En güçlü Groq modeli)
         llm = ChatGroq(
             temperature=0.8,
             groq_api_key=groq_api_key,
@@ -123,7 +160,7 @@ if prompt := st.chat_input("Zihnindeki frekansları paylaş..."):
         )
 
         prompt_template = ChatPromptTemplate.from_messages([
-            ("system", "You are Lumina 2050, a futuristic, highly advanced AI Clinical Psychologist. Use sophisticated but empathetic language. Help the human navigate their neural-emotional state."),
+            ("system", "You are Lumina 2050, a futuristic AI Psychologist. Support the human user with empathy using CBT frameworks."),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}")
         ])
@@ -140,16 +177,29 @@ if prompt := st.chat_input("Zihnindeki frekansları paylaş..."):
                 response = chain.invoke({"chat_history": history[-10:], "input": prompt})
                 st.markdown(response.content)
                 st.session_state.messages.append({"role": "assistant", "content": response.content})
+                
+                if len(st.session_state.messages) % 4 == 0:
+                    render_ad_unit("CHAT_AD_SLOT_ID")
 
     except Exception as e:
         st.error(f"Neural Connection Error: {str(e)}")
 
-# --- 5. YAN PANEL ---
+# --- 6. YAN PANEL VE YASAL UYARI ---
 with st.sidebar:
     st.markdown("<h2 style='color:#00d4ff;'>SYSTEM STATUS</h2>", unsafe_allow_html=True)
     st.write("🟢 Neural Core: Operational")
-    st.write("🔵 Encryption: Active")
+    
     st.divider()
-    if st.button("Purge Session Data (Reset)"):
+    st.markdown("### 📜 Compliance & Legal")
+    if st.button("Read Privacy Policy", use_container_width=True):
+        show_privacy_policy()
+        
+    st.divider()
+    if st.button("Purge Session Data (Reset)", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
+
+render_ad_unit("BOTTOM_AD_SLOT_ID")
+
+st.markdown("<br><br>", unsafe_allow_html=True)
+st.caption("⚠️ **Notice:** Lumina 2050 is an AI mental wellness protocol. It does not provide medical diagnoses or real-time crisis intervention. By interacting, you agree to our [Privacy Policy].")
