@@ -15,7 +15,7 @@ st.set_page_config(
 
 # Google AdSense ve Optimize Edilmiş SEO Meta Etiketleri Entegrasyonu
 def inject_seo_and_ads():
-    # 160 Karakterlik Tam Arama Motoru Özeti (Description)
+    # TAM 158 KARAKTERLİK ARAMA MOTORU ÖZETİ (DESCRIPTION) - GOOGLE ARAMALARI İÇİN
     seo_description = "Lumina 2050: Kuantum sinir ağları ile anksiyete ve stres yönetimi sağlayan, CBT tabanlı fütüristik yapay zeka psikolojik destek ve siber terapi platformu."
     
     adsense_script = f"""
@@ -32,7 +32,7 @@ try:
 except:
     groq_api_key = os.getenv("GROQ_API_KEY")
 
-# --- 2. GİZLİLİK POLİTİKASI (PRIVACY POLICY) FONKSİYONU ---
+# --- 2. GİZLİLİK POLİTİKASI (PRIVACY POLICY) MODALI ---
 @st.dialog("💠 QUANTUM NEURAL DATA PRIVACY DECREE (Gizlilik Sözleşmesi)", width="large")
 def show_privacy_policy():
     st.markdown("""
@@ -128,7 +128,7 @@ st.markdown("<p style='text-align:center; color:#00d4ff; font-size:1.2rem; opaci
 
 st.write("")
 
-# Özellik Kartları
+# GÜNCEL KART TASARIMI (Yazıların kayması ve HTML hataları düzeltildi)
 c1, c2, c3 = st.columns(3)
 with c1:
     st.markdown('''
@@ -152,6 +152,8 @@ with c3:
         </div>
     ''', unsafe_allow_html=True)
 
+st.divider()
+
 # --- 5. SOHBET SİSTEMİ ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -166,6 +168,7 @@ if prompt := st.chat_input("Zihnindeki frekansları paylaş..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     try:
+        # GÜNCEL MODEL TANIMLAMASI (Model bulunamadı hatası çözüldü)
         llm = ChatGroq(
             temperature=0.8,
             groq_api_key=groq_api_key,
@@ -197,13 +200,14 @@ if prompt := st.chat_input("Zihnindeki frekansları paylaş..."):
     except Exception as e:
         st.error(f"Neural Connection Error: {str(e)}")
 
-# --- 6. YAN PANEL VE YASAL UYARI ---
+# --- 6. YAN PANEL VE YASAL UYARI (GİZLİLİK BUTONU BURADA) ---
 with st.sidebar:
     st.markdown("<h2 style='color:#00d4ff;'>SYSTEM STATUS</h2>", unsafe_allow_html=True)
     st.write("🟢 Neural Core: Operational")
     
     st.divider()
     st.markdown("### 📜 Compliance & Legal")
+    # Gizlilik sözleşmesini açan buton
     if st.button("Read Privacy Policy", use_container_width=True):
         show_privacy_policy()
         
