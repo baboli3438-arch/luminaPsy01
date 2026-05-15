@@ -1,3 +1,92 @@
+def local_css():
+    st.markdown("""
+        <style>
+        /* Genel Arka Plan ve Yazı Tipi */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        
+        html, body, [class*="css"] {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F2F6;
+        }
+
+        /* Sohbet Balonlarını Özelleştirme */
+        .stChatMessage {
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #E0E0E0;
+        }
+        
+        /* Yan Panel (Sidebar) Tasarımı */
+        [data-testid="stSidebar"] {
+            background-color: #FFFFFF;
+            border-right: 1px solid #EAEAEA;
+        }
+
+        /* Başlık Stili */
+        .main-title {
+            font-weight: 700;
+            color: #1E3A8A;
+            text-align: center;
+            margin-bottom: 0px;
+        }
+        
+        .sub-title {
+            color: #6B7280;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Bilgi Kutuları */
+        .stAlert {
+            border-radius: 10px;
+            border: none;
+            background-color: #E0F2FE;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+local_css()
+
+# Başlık Bölümü
+st.markdown("<h1 class='main-title'>Lumina Psy</h1>", unsafe_allow_html=True)
+st.markdown("<p class='sub-title'>Your Professional AI Partner for Emotional Resilience</p>", unsafe_allow_html=True)
+
+# İstatistik veya Kısa Bilgi Kartları
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.info("🔒 **Confidential**\n\nEncrypted conversations.")
+with col2:
+    st.info("⚡ **Instant**\n\n24/7 Emotional support.")
+with col3:
+    st.info("🧠 **Evidence-Based**\n\nCBT & ACT frameworks.")
+
+st.divider()
+
+with st.sidebar:
+    st.image("https://img.icons8.com/fluency/96/brain.png", width=80) # Küçük bir logo
+    st.title("Settings & Tools")
+    
+    # API Girişi
+    groq_api_key = st.text_input("Groq API Key", type="password", help="Get your key from console.groq.com")
+    
+    st.markdown("---")
+    st.markdown("### 🧘 Quick Exercises")
+    if st.button("4-7-8 Breathing"):
+        st.toast("Inhale for 4s, Hold for 7s, Exhale for 8s...", icon="🌬️")
+    
+    st.markdown("---")
+    st.caption("Version 1.2.0 | © 2024 Lumina Health")
+
+if prompt := st.chat_input("How are you feeling right now?"):
+    # ... (kodun geri kalanı)
+    with st.chat_message("assistant"):
+        with st.spinner("Analyzing your thoughts with care..."):
+            # API çağrısı buraya gelir
+            # response = chain.invoke(...)
+            st.markdown(response.content)
+
 import streamlit as st
 from groq import Groq
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
