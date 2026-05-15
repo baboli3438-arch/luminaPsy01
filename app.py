@@ -5,22 +5,19 @@ from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 
-# --- 1. SİSTEM VE 160 KARAKTERLİK SEO AYARLARI ---
+# --- 1. SİSTEM VE SEO AYARLARI (İLK AÇILIŞTA PANEL AÇIK GELİR) ---
 st.set_page_config(
     page_title="Lumina 2050 | Futuristic AI Therapy",
     page_icon="💠",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded" # Yan panel artık görünür başlar!
 )
 
 # Google AdSense ve Optimize Edilmiş SEO Meta Etiketleri Entegrasyonu
 def inject_seo_and_ads():
-    # TAM 158 KARAKTERLİK ARAMA MOTORU ÖZETİ (DESCRIPTION) - GOOGLE ARAMALARI İÇİN
     seo_description = "Lumina 2050: Kuantum sinir ağları ile anksiyete ve stres yönetimi sağlayan, CBT tabanlı fütüristik yapay zeka psikolojik destek ve siber terapi platformu."
     
     adsense_script = f"""
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-    
     <meta name="description" content="{seo_description}">
     <meta name="keywords" content="AI therapy, yapay zeka psikolog, siber klinik, mental health AI, Lumina 2050, anksiyete terapisi">
     """
@@ -49,7 +46,7 @@ def show_privacy_policy():
     * Girdileriniz, uçtan uca kriptografik katmanlar aracılığıyla güvenli yapay zeka sunucularına aktarılır.
     * Verileriniz üçüncü taraf veri simsarlarına, reklam şirketlerine veya yapay zeka geliştirme havuzlarına **kesinlikle satılmaz ve satılması teklif dahi edilemez.**
     
-    ### 3. Oturum Sıfırlama (Veri İmhası)
+    ### 3. Oturum Sıfırlama (Veri Intrusion)
     * Arayüzde bulunan **"Purge Session Data" (Verileri Temizle)** butonuna bastığınız anda, o oturuma ait tüm kuantum sinirsel geçmiş ve sohbet logları kalıcı olarak imha edilir. Geri döndürülmesi imkansızdır.
     
     ### 4. Sorumluluk Reddi ve Onay
@@ -63,16 +60,9 @@ def render_ad_unit(slot_id):
     ad_html = f"""
     <div style="text-align:center; margin: 20px 0; opacity: 0.5;">
         <small style="color: #00d4ff; font-family: sans-serif; font-size:10px;">NEURAL AD NETWORK // SLOT: {slot_id}</small>
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="{slot_id}"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script> (adsbygoogle = window.adsbygoogle || []).push({{}}); </script>
     </div>
     """
-    components.html(ad_html, height=120)
+    components.html(ad_html, height=50)
 
 # --- 3. FÜTÜRİSTİK SİBER-TASARIM (CSS) ---
 st.markdown("""
@@ -112,15 +102,44 @@ st.markdown("""
         border-radius: 20px !important;
     }
 
-    /* Gizli Arayüz Elemanları */
+    /* Streamlit'in kendi orijinal sönük ok butonunu tamamen görünmez yapıyoruz */
+    [data-testid="stHeader"] {background: transparent !important;}
+    [data-testid="stSidebarCollapseButton"] { display: none !important; }
     
+    footer {visibility: hidden;}
     </style>
 """, unsafe_allow_html=True)
+
+# --- 4. SIFIRDAN YAZILAN JAVASCRIPT/HTML NEON BUTON ---
+# Bu script, Streamlit'in gizli yan panelini açan görünmez elementleri tetikler.
+custom_toggle_button = """
+<div style="position: fixed; top: 20px; left: 20px; z-index: 999999;">
+    <button onclick="window.parent.document.querySelector('.st-emotion-cache-ch6vcl, [data-testid=\\'stSidebarCollapseButton\\']').click()" 
+            style="
+                background: rgba(0, 212, 255, 0.15);
+                border: 2px solid #00d4ff;
+                color: #00d4ff;
+                padding: 10px 18px;
+                border-radius: 12px;
+                font-family: sans-serif;
+                font-weight: bold;
+                cursor: pointer;
+                box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+                transition: all 0.3s ease;
+            "
+            onmouseover="this.style.background='#00d4ff'; this.style.color='#030712'; this.style.boxShadow='0 0 25px #00d4ff';"
+            onmouseout="this.style.background='rgba(0, 212, 255, 0.15)'; this.style.color='#00d4ff'; this.style.boxShadow='0 0 15px rgba(0, 212, 255, 0.6)';"
+    >
+        💠 MENU
+    </button>
+</div>
+"""
+components.html(custom_toggle_button, height=60)
 
 # Başlangıçta SEO ayarlarını yükle
 inject_seo_and_ads()
 
-# --- 4. ANA ARAYÜZ ---
+# --- 5. ANA ARAYÜZ ---
 render_ad_unit("TOP_AD_SLOT_ID")
 
 st.markdown("<h1 class='hero-title'>LUMINA 2050</h1>", unsafe_allow_html=True)
@@ -128,7 +147,7 @@ st.markdown("<p style='text-align:center; color:#00d4ff; font-size:1.2rem; opaci
 
 st.write("")
 
-# GÜNCEL KART TASARIMI (Yazıların kayması ve HTML hataları düzeltildi)
+# Özellik Kartları
 c1, c2, c3 = st.columns(3)
 with c1:
     st.markdown('''
@@ -154,7 +173,7 @@ with c3:
 
 st.divider()
 
-# --- 5. SOHBET SİSTEMİ ---
+# --- 6. SOHBET SİSTEMİ ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -168,7 +187,6 @@ if prompt := st.chat_input("Zihnindeki frekansları paylaş..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     try:
-        # GÜNCEL MODEL TANIMLAMASI (Model bulunamadı hatası çözüldü)
         llm = ChatGroq(
             temperature=0.8,
             groq_api_key=groq_api_key,
@@ -193,91 +211,24 @@ if prompt := st.chat_input("Zihnindeki frekansları paylaş..."):
                 response = chain.invoke({"chat_history": history[-10:], "input": prompt})
                 st.markdown(response.content)
                 st.session_state.messages.append({"role": "assistant", "content": response.content})
-                
-                if len(st.session_state.messages) % 4 == 0:
-                    render_ad_unit("CHAT_AD_SLOT_ID")
 
     except Exception as e:
         st.error(f"Neural Connection Error: {str(e)}")
 
-# --- 6. YAN PANEL VE YASAL UYARI (GİZLİLİK BUTONU BURADA) ---
-# --- 3. FÜTÜRİSTİK SİBER-TASARIM (GÜNCELLENMİŞ CSS) ---
-st.markdown("""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+# --- 7. YAN PANEL VE YASAL UYARI ---
+with st.sidebar:
+    st.markdown("<h2 style='color:#00d4ff;'>SYSTEM STATUS</h2>", unsafe_allow_html=True)
+    st.write("🟢 Neural Core: Operational")
     
-    /* Arka Plan */
-    .stApp {
-        background: radial-gradient(circle at top right, #0a0e1a, #030712);
-        color: #00d4ff;
-        font-family: 'Space Grotesk', sans-serif;
-    }
+    st.divider()
+    st.markdown("### 📜 Compliance & Legal")
+    if st.button("Read Privacy Policy", use_container_width=True):
+        show_privacy_policy()
+        
+    st.divider()
+    if st.button("Purge Session Data (Reset)", use_container_width=True):
+        st.session_state.messages = []
+        st.rerun()
 
-    /* Başlık */
-    .hero-title {
-        font-size: 5rem;
-        font-weight: 900;
-        text-align: center;
-        background: linear-gradient(to right, #00d4ff, #0055ff, #8000ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -4px;
-        margin-top: -60px;
-        filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
-    }
-
-    /* Kartlar */
-    .futuristic-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(0, 212, 255, 0.2);
-        backdrop-filter: blur(15px);
-        padding: 30px;
-        border-radius: 24px;
-        text-align: center;
-    }
-
-    /* Mesaj Balonları */
-    .stChatMessage {
-        background: rgba(16, 24, 40, 0.8) !important;
-        border: 1px solid rgba(0, 212, 255, 0.1);
-        border-radius: 20px !important;
-    }
-
-    /* 🎯 OK BUTONUNU GERİ GETİREN VE PARLATAN YENİ CSS */
-    [data-testid="stSidebarCollapseButton"] {
-        background-color: rgba(0, 212, 255, 0.15) !important;
-        border: 2px solid #00d4ff !important;
-        border-radius: 12px !important;
-        box-shadow: 0 0 15px rgba(0, 212, 255, 0.5) !important;
-        position: fixed !important;
-        left: 20px !important;
-        top: 20px !important;
-        z-index: 999999 !important;
-        display: flex !important;
-        visibility: visible !important; /* Gizliliği zorla kaldırıyoruz */
-        padding: 5px !important;
-    }
-    
-    [data-testid="stSidebarCollapseButton"] svg {
-        fill: #00d4ff !important;
-        width: 32px !important; /* Oku devasa yapar */
-        height: 32px !important;
-    }
-
-    [data-testid="stSidebarCollapseButton"]:hover {
-        background-color: #00d4ff !important;
-        box-shadow: 0 0 25px #00d4ff !important;
-    }
-    
-    [data-testid="stSidebarCollapseButton"]:hover svg {
-        fill: #030712 !important;
-    }
-
-    /* ⚠️ SADECE HEADER ARKA PLANINI GİZLE, BUTONU DEĞİL */
-    header[data-testid="stHeader"] {
-        background: transparent !important;
-    }
-    footer {visibility: hidden;}
-    </style>
-""", unsafe_allow_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)
 st.caption("⚠️ **Notice:** Lumina 2050 is an AI mental wellness protocol. It does not provide medical diagnoses or real-time crisis intervention. By interacting, you agree to our [Privacy Policy].")
